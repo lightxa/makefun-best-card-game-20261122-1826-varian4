@@ -1,0 +1,165 @@
+/* Tidebound Bazaar — harbor auction duel. Deep teal water, brass and rope. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: Georgia, "Times New Roman", serif;
+  background: radial-gradient(1200px 700px at 50% -10%, #0e4d5c 0%, #082f3d 45%, #041e28 100%);
+  color: #f3e9c8;
+  overflow-x: hidden;
+}
+#app { max-width: 1180px; margin: 0 auto; padding: 10px 18px 14px; }
+.screen { min-height: 0; }
+button { font-family: inherit; cursor: pointer; }
+button:focus-visible { outline: 3px solid #ffd166; outline-offset: 2px; }
+
+/* ---------- title ---------- */
+#screen-title { text-align: center; padding-top: 42px; }
+.title-emblem { font-size: 34px; letter-spacing: 10px; filter: drop-shadow(0 3px 6px rgba(0,0,0,.5)); }
+.game-title {
+  font-size: 76px; line-height: .95; letter-spacing: 6px; margin: 18px 0 10px;
+  color: #ffd166; text-shadow: 0 4px 0 #7a4a12, 0 8px 22px rgba(0,0,0,.6);
+}
+.game-subtitle { font-size: 19px; font-style: italic; color: #cfe8dd; max-width: 640px; margin: 0 auto 22px; }
+.title-cards { display: flex; gap: 14px; justify-content: center; margin-bottom: 26px; }
+.title-row { display: flex; gap: 14px; justify-content: center; align-items: center; }
+.big-btn {
+  background: linear-gradient(#ffd166, #e8a93c); color: #3a2404; border: 2px solid #7a4a12;
+  border-radius: 10px; padding: 13px 26px; font-size: 19px; font-weight: bold; letter-spacing: .5px;
+  box-shadow: 0 4px 0 #7a4a12, 0 8px 16px rgba(0,0,0,.4);
+}
+.big-btn:hover { filter: brightness(1.08); }
+.big-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #7a4a12; }
+.big-btn:disabled { filter: grayscale(.7) brightness(.75); cursor: not-allowed; }
+.ghost-btn {
+  background: transparent; color: #cfe8dd; border: 2px solid #5f8f8a; border-radius: 10px;
+  padding: 12px 20px; font-size: 16px;
+}
+.ghost-btn:hover { border-color: #ffd166; color: #ffd166; }
+.diff-row { margin-top: 22px; display: flex; gap: 8px; justify-content: center; align-items: center; }
+.diff-label { color: #9fc3b8; font-style: italic; }
+.diff-btn {
+  background: #0a3a48; color: #cfe8dd; border: 1px solid #3d6b74; border-radius: 8px; padding: 7px 14px; font-size: 15px;
+}
+.diff-btn.selected { background: #ffd166; color: #3a2404; border-color: #ffd166; font-weight: bold; }
+.title-foot { margin-top: 26px; color: #8fb3a9; font-size: 13.5px; }
+.rules-panel {
+  max-width: 680px; margin: 24px auto 0; text-align: left; background: rgba(4,30,40,.85);
+  border: 1px solid #3d6b74; border-radius: 12px; padding: 18px 22px; font-size: 15.5px; line-height: 1.5;
+}
+.rules-panel h2 { color: #ffd166; margin-bottom: 8px; font-size: 20px; }
+.rules-panel p { margin-bottom: 8px; }
+
+/* ---------- top bar ---------- */
+#topbar { display: flex; align-items: stretch; gap: 16px; margin-bottom: 8px; }
+.life { flex: 1; background: rgba(4,30,40,.8); border: 1px solid #3d6b74; border-radius: 12px; padding: 10px 14px; }
+.life.you { text-align: left; }
+.life.rival { text-align: right; }
+.who { font-size: 13px; letter-spacing: 2px; color: #9fc3b8; display: block; margin-bottom: 4px; }
+.gold { font-size: 26px; font-weight: bold; color: #ffd166; }
+.pts { font-size: 20px; font-weight: bold; color: #8ef0c0; margin-left: 10px; }
+.life.rival .pts { margin-left: 0; margin-right: 10px; }
+.bar { height: 8px; background: #06222c; border-radius: 5px; margin-top: 6px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: linear-gradient(90deg, #ffd166, #e8a93c); transition: width .5s; }
+.brand {
+  font-size: 22px; font-weight: bold; letter-spacing: 3px; color: #ffd166; text-align: center;
+  display: flex; flex-direction: column; justify-content: center; min-width: 260px;
+}
+.brand small { font-size: 13px; letter-spacing: 2px; color: #cfe8dd; font-weight: normal; }
+#tideRow {
+  display: flex; justify-content: center; align-items: center; gap: 18px; margin: 4px 0 10px;
+  font-size: 16px;
+}
+#tideRow b { color: #ffd166; }
+#soundBtn { background: #0a3a48; color: #cfe8dd; border: 1px solid #3d6b74; border-radius: 8px; padding: 6px 12px; font-size: 14px; }
+
+/* ---------- rival row ---------- */
+#rivalRow { display: flex; gap: 10px; justify-content: center; min-height: 84px; margin-bottom: 4px; }
+.mini-card {
+  width: 120px; min-height: 76px; border-radius: 10px; padding: 6px 10px; font-size: 13px;
+  background: linear-gradient(160deg, #123f4d, #0a2c38); border: 1px solid #3d6b74; color: #b9d6cc;
+  display: flex; flex-direction: column; justify-content: center; text-align: center;
+}
+.mini-card.used { opacity: .35; text-decoration: line-through; }
+.mini-card .mc-name { font-weight: bold; color: #ffd166; font-size: 14px; }
+.rival-label { align-self: center; color: #9fc3b8; font-style: italic; font-size: 14px; width: 130px; text-align: right; }
+
+/* ---------- market ---------- */
+#marketRow { display: flex; gap: 16px; justify-content: center; padding: 10px; min-height: 196px;
+  background: linear-gradient(180deg, rgba(255,209,102,.10), rgba(4,30,40,.35));
+  border: 2px solid #7a4a12; border-radius: 16px; box-shadow: inset 0 0 40px rgba(0,0,0,.35); }
+.market-label { align-self: center; color: #ffd166; font-size: 14px; letter-spacing: 2px; writing-mode: vertical-rl; transform: rotate(180deg); }
+.card {
+  width: 148px; height: 178px; border-radius: 12px; padding: 8px 12px; position: relative;
+  background: linear-gradient(165deg, #fff8e6, #f0dcb0); color: #2b1d05;
+  border: 3px solid #7a4a12; box-shadow: 0 6px 14px rgba(0,0,0,.5);
+  display: flex; flex-direction: column; animation: dealIn .45s ease both;
+}
+@keyframes dealIn { from { transform: translateY(-26px) rotate(-4deg); opacity: 0; } to { transform: none; opacity: 1; } }
+.card .cost { font-size: 15px; font-weight: bold; }
+.card .glyph { font-size: 36px; text-align: center; margin: 4px 0 2px; }
+.card .cname { font-size: 17px; font-weight: bold; text-align: center; line-height: 1.1; }
+.card .cart { font-size: 11px; letter-spacing: 2px; text-align: center; margin-top: 3px; }
+.card .ctext { font-size: 12.5px; font-style: italic; text-align: center; margin-top: auto; color: #5a4318; line-height: 1.3; }
+.card .cval { position: absolute; right: 10px; top: 8px; font-size: 26px; font-weight: bold; }
+.card.favored { border-color: #ffd166; box-shadow: 0 0 0 3px #ffd166, 0 6px 16px rgba(0,0,0,.55); }
+.card.favored::after { content: "TIDE ×2"; position: absolute; left: 50%; bottom: -11px; transform: translateX(-50%);
+  background: #ffd166; color: #3a2404; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 8px; white-space: nowrap; }
+.card.suit-anchor { border-top: 8px solid #2f7fb8; }
+.card.suit-pearl  { border-top: 8px solid #d98bb0; }
+.card.suit-spice  { border-top: 8px solid #e07830; }
+.card.suit-silk   { border-top: 8px solid #8a5fd0; }
+.card.discarded { opacity: .35; filter: grayscale(1); transform: rotate(-6deg) scale(.92); }
+
+/* ---------- middle row ---------- */
+#midRow { display: flex; gap: 14px; margin-top: 10px; }
+#intentBox, #log, #bidBox {
+  background: rgba(4,30,40,.8); border: 1px solid #3d6b74; border-radius: 12px; padding: 12px 14px;
+}
+#intentBox { flex: 1.15; }
+#log { flex: 1.6; }
+#bidBox { flex: 1.1; text-align: center; }
+.tag { font-size: 11.5px; letter-spacing: 2px; color: #9fc3b8; margin-bottom: 6px; }
+.plan { font-size: 18px; font-weight: bold; color: #ffd166; }
+.plan-sub { font-size: 14px; font-style: italic; color: #cfe8dd; margin-top: 4px; }
+#logLines { font-size: 14px; line-height: 1.55; color: #d8e8df; max-height: 92px; overflow: hidden; }
+#logLines div b { color: #ffd166; }
+#bidValue { font-size: 34px; font-weight: bold; color: #ffd166; margin: 2px 0 8px; }
+#bidChips { display: flex; gap: 6px; justify-content: center; margin-bottom: 10px; }
+#bidChips button {
+  background: #0a3a48; color: #ffd166; border: 1px solid #3d6b74; border-radius: 8px;
+  padding: 6px 13px; font-size: 15px; font-weight: bold;
+}
+#bidChips button:hover { border-color: #ffd166; }
+#bidBox .big-btn { font-size: 16px; padding: 10px 16px; width: 100%; }
+#bidHint { font-size: 12.5px; color: #9fc3b8; margin-top: 7px; font-style: italic; }
+
+/* ---------- player hand (charters) ---------- */
+#handRow { display: flex; gap: 14px; justify-content: center; margin-top: 10px; min-height: 128px; }
+#handHint { text-align: center; color: #9fc3b8; font-size: 13.5px; font-style: italic; margin-top: 6px; }
+.charter {
+  width: 210px; min-height: 122px; border-radius: 12px; padding: 10px 14px; text-align: left;
+  background: linear-gradient(165deg, #173a2e, #0c241c); border: 2px solid #4d8a6a; color: #e8f5ec;
+  box-shadow: 0 5px 12px rgba(0,0,0,.45); transition: transform .15s, box-shadow .15s;
+}
+.charter:hover:not(:disabled) { transform: translateY(-6px); border-color: #ffd166; box-shadow: 0 10px 18px rgba(0,0,0,.5); }
+.charter .ch-key { float: right; font-size: 12px; color: #9fc3b8; border: 1px solid #4d8a6a; border-radius: 5px; padding: 1px 6px; }
+.charter .ch-name { font-size: 17px; font-weight: bold; color: #8ef0c0; }
+.charter .ch-type { font-size: 11px; letter-spacing: 2px; color: #9fc3b8; margin: 2px 0 6px; }
+.charter .ch-text { font-size: 13.5px; line-height: 1.4; font-style: italic; }
+.charter.used { opacity: .35; }
+.charter.used:hover { transform: none; }
+.charter.active { border-color: #ffd166; box-shadow: 0 0 0 3px #ffd166; }
+.charter:disabled { cursor: not-allowed; }
+
+/* ---------- end screen ---------- */
+#screen-end { text-align: center; padding-top: 90px; }
+#endEmblem { font-size: 64px; }
+#endStats {
+  display: flex; gap: 16px; justify-content: center; margin: 22px 0 28px;
+}
+#endStats .stat {
+  background: rgba(4,30,40,.85); border: 1px solid #3d6b74; border-radius: 12px; padding: 16px 22px; min-width: 150px;
+}
+#endStats .stat b { display: block; font-size: 34px; color: #ffd166; }
+#endStats .stat span { font-size: 13px; letter-spacing: 2px; color: #9fc3b8; }
+#screen-end.lost .game-title { color: #ff8a7a; text-shadow: 0 4px 0 #5c1408, 0 8px 22px rgba(0,0,0,.6); }

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tidebound Bazaar — a harbor auction duel</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ============ TITLE SCREEN ============ -->
+  <section id="screen-title" class="screen">
+    <div class="title-emblem">⚓ 🪙 🌊 🪙 ⚓</div>
+    <h1 class="game-title">TIDEBOUND<br>BAZAAR</h1>
+    <p class="game-subtitle">Two rival merchants. One floating market. Bid for the cargo, ride the tide, and own the harbor.</p>
+    <div class="title-cards" id="titleCards"></div>
+    <div class="title-row">
+      <button id="btn-start" class="big-btn" type="button">▶ Open the Market</button>
+      <button id="btn-rules" class="ghost-btn" type="button">How to play</button>
+    </div>
+    <div class="diff-row" id="diffRow">
+      <span class="diff-label">Rival:</span>
+      <button class="diff-btn" data-diff="apprentice" type="button">Apprentice</button>
+      <button class="diff-btn selected" data-diff="merchant" type="button">Merchant</button>
+      <button class="diff-btn" data-diff="harbormaster" type="button">Harbormaster</button>
+    </div>
+    <p class="title-foot">Keyboard: 1–3 play a Charter · + / − set your bid · Enter confirms · M sound · R restart</p>
+    <div id="rulesPanel" class="rules-panel" hidden>
+      <h2>How to play</h2>
+      <p><b>8 rounds.</b> Each round three cargo cards are laid on the market. A tide favors one suit: cards of that suit score double.</p>
+      <p><b>Bid gold.</b> Set your bid and confirm. The rival bids in secret — read their intent, then outbid them. Highest bid wins the lot, pays the gold, and banks the points. Ties go to the rival, so a tie is a loss.</p>
+      <p><b>Charters.</b> You hold three one-use Charter cards: Smuggler's Coin (+3 to your bid, free), Harbor Tax (rival pays +3 gold if they win), Storm Bell (discard the lowest lot card before bidding). Play one per round, before you confirm.</p>
+      <p><b>Sets pay.</b> A lot with two cards of one suit earns +4 bonus points. First to 50 points, or most points after round 8, takes the harbor.</p>
+      <p><b>Gold is life.</b> Spend it all and you can only bid 0. A rich rival who never wins a lot still loses the harbor.</p>
+    </div>
+  </section>
+
+  <!-- ============ TABLE SCREEN ============ -->
+  <section id="screen-table" class="screen" hidden>
+    <div id="topbar">
+      <div class="life you">
+        <span class="who">YOU · SALT MERCHANT</span>
+        <span class="gold" id="youGold">🪙 30</span>
+        <span class="pts" id="youPts">0 pts</span>
+        <div class="bar"><i id="youGoldBar" style="width:100%"></i></div>
+      </div>
+      <div class="brand">TIDEBOUND BAZAAR<small id="roundLabel">ROUND 1 / 8</small></div>
+      <div class="life rival">
+        <span class="pts" id="rivalPts">0 pts</span>
+        <span class="gold" id="rivalGold">🪙 30</span>
+        <span class="who">RIVAL · CORAL BROKER</span>
+        <div class="bar"><i id="rivalGoldBar" style="width:100%"></i></div>
+      </div>
+    </div>
+
+    <div id="tideRow">
+      <span id="tideLabel">🌊 TIDE FAVORS <b id="tideSuit">—</b> · those cards score DOUBLE</span>
+      <button id="soundBtn" type="button" title="Toggle sound (M)">♪ Sound: on</button>
+    </div>
+
+    <div id="rivalRow" aria-label="Rival charters"></div>
+
+    <div id="marketRow" aria-label="Market lot"></div>
+
+    <div id="midRow">
+      <div id="intentBox" aria-label="Rival intent">
+        <div class="tag">RIVAL INTENT — READ IT, COUNTER IT</div>
+        <div class="plan" id="intentPlan">Rival is sizing up the lot…</div>
+        <div class="plan-sub" id="intentSub">Watch their face: a hungry rival bids high.</div>
+      </div>
+      <div id="log" aria-label="Market log"><div class="tag">MARKET LOG</div><div id="logLines"></div></div>
+      <div id="bidBox" aria-label="Your bid">
+        <div class="tag">YOUR BID</div>
+        <div id="bidValue">🪙 0</div>
+        <div id="bidChips">
+          <button data-bid="1" type="button">+1</button>
+          <button data-bid="3" type="button">+3</button>
+          <button data-bid="5" type="button">+5</button>
+          <button id="bidClear" type="button">0</button>
+        </div>
+        <button id="btn-confirm" class="big-btn" type="button">⚖ Confirm bid (Enter)</button>
+        <div id="bidHint">Highest bid wins the lot.</div>
+      </div>
+    </div>
+
+    <div id="handRow" aria-label="Your charters"></div>
+    <div id="handHint">Your Charters — one use each, play before you confirm · keys 1–3</div>
+  </section>
+
+  <!-- ============ END SCREEN ============ -->
+  <section id="screen-end" class="screen" hidden>
+    <div id="endEmblem">⚓</div>
+    <h1 id="endTitle" class="game-title">YOU OWN THE HARBOR</h1>
+    <p id="endSub" class="game-subtitle"></p>
+    <div id="endStats"></div>
+    <div class="title-row">
+      <button id="btn-again" class="big-btn" type="button">↻ Play again (R)</button>
+      <button id="btn-title2" class="ghost-btn" type="button">Title screen</button>
+    </div>
+  </section>
+
+</div>
+<script type="module" src="main.js"></script>
+</body>
+</html>
